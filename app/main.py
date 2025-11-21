@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from app.database import init_db
 from fastapi.middleware.cors import CORSMiddleware
