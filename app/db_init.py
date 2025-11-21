@@ -1,5 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
+import os
 
 SQL_SCRIPT = """
 CREATE DATABASE IF NOT EXISTS rental_services
@@ -67,10 +68,11 @@ CREATE TABLE IF NOT EXISTS agendas (
 def init_database():
     try:
         conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password=""
-        )
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASS"),
+        database=os.getenv("DB_NAME")
+)
         cursor = conn.cursor()
 
         print("🔵 Ejecutando inicialización de la base de datos...")
