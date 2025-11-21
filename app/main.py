@@ -26,7 +26,7 @@ def create_default_admin():
         return
 
     # ¿Admin existe?
-    admin = db.query(User).filter(User.email == admin_email).first()
+    admin = db.query(User).filter(User.email == 'kgcarrillo10@gmail.com').first()
 
     if not admin:
         print("Creando usuario admin por defecto...")
