@@ -19,27 +19,34 @@ def create_default_admin():
     admin_email = os.getenv("ADMIN_EMAIL")
     admin_password = os.getenv("ADMIN_PASSWORD")
 
+    # Validar configuración
     if not admin_email or not admin_password:
         print("ADMIN_EMAIL o ADMIN_PASSWORD no configurados.")
+        db.close()
         return
 
+    # ¿Admin existe?
     admin = db.query(User).filter(User.email == admin_email).first()
 
     if not admin:
         print("Creando usuario admin por defecto...")
         new_admin = User(
             id=str(uuid.uuid4()),
-            name="Admin",
-            email=admin_email,
-            password=admin_password,
+            name="Karol G",
+            phone="3006586484",
+            address="Cra 42 39C 23",
+            email='kgcarrillo10@gmail.com',
+            password='totumito',
             role="admin"
         )
         db.add(new_admin)
         db.commit()
+        print("Usuario admin creado.")
     else:
-        print("Admin ya existe.")
+        print("Usuario admin ya existe.")
 
     db.close()
+
 
 # FastAPI
 app = FastAPI(title='rental-services-python', redirect_slashes=False)
