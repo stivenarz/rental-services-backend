@@ -3,7 +3,6 @@ from fastapi import FastAPI
 from app.database import init_db
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import services, technicians, agendas, users
-from .db_init import init_database
 from app.database import Base, engine
 from database import Base, engine
 import models
