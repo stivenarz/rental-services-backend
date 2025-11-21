@@ -15,7 +15,7 @@ class ServiceUpdate(ServiceBase):
 class Service(ServiceBase):
     id: int
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class TechnicianBase(BaseModel):
     name: str
@@ -32,7 +32,7 @@ class TechnicianUpdate(TechnicianBase):
 class Technician(TechnicianBase):
     id: int
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class UserBase(BaseModel):
     name: str
@@ -51,7 +51,7 @@ class UserUpdate(UserBase):
 class User(UserBase):
     id: int
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class AgendaBase(BaseModel):
     userId: int
@@ -92,4 +92,4 @@ class UserPublic(BaseModel):
     role: str | None = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True

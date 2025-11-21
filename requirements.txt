@@ -5,3 +5,4 @@ pydantic
 python-dotenv
 pymysql
 mysql-connector-python
+email-validator
