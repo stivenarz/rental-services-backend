@@ -1,18 +1,21 @@
 import os
-from fastapi import FastAPI
-from app.database import init_db
-from fastapi.middleware.cors import CORSMiddleware
-from app.routers import services, technicians, agendas, users
-from app.database import Base, engine
-from database import Base, engine
-import models
-from sqlalchemy.orm import Session
-from database import SessionLocal
-from models import User
 import uuid
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
+
+from app.database import Base, engine, SessionLocal
+from app.models import User
+from app.routers import services, technicians, agendas, users
+
+# Crear tablas al iniciar
+def init_database():
+    print("Creando tablas si no existen...")
+    Base.metadata.create_all(bind=engine)
 
 def create_default_admin():
     db: Session = SessionLocal()
+
     admin_email = os.getenv("ADMIN_EMAIL")
     admin_password = os.getenv("ADMIN_PASSWORD")
 
@@ -38,14 +41,9 @@ def create_default_admin():
 
     db.close()
 
-
-# LLAMAR AL INICIO
-create_default_admin()
-
-print("Creando tablas si no existen...")
-Base.metadata.create_all(bind=engine)
-
+# FastAPI
 app = FastAPI(title='rental-services-python', redirect_slashes=False)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -54,17 +52,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers
+# Routers
 app.include_router(agendas.router)
 app.include_router(services.router)
 app.include_router(technicians.router)
 app.include_router(users.router)
 
-
-# Initialize DB (creates tables)
-@app.on_event('startup')
+# Evento startup
+@app.on_event("startup")
 def startup_event():
     init_database()
+    create_default_admin()
 
 @app.get('/ping')
 def ping():
