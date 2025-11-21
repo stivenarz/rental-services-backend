@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from app.database import init_db
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import services, technicians, agendas, users
+from .db_init import init_database
 
 app = FastAPI(title='rental-services-python', redirect_slashes=False)
 app.add_middleware(
@@ -21,8 +22,8 @@ app.include_router(users.router)
 
 # Initialize DB (creates tables)
 @app.on_event('startup')
-def on_startup():
-    init_db()
+def startup_event():
+    init_database()
 
 @app.get('/ping')
 def ping():

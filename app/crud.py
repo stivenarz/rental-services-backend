@@ -76,7 +76,7 @@ def get_user(db: Session, user_id: int):
     return db.query(models.User).filter(models.User.id == user_id).first()
 
 def create_user(db: Session, user: schemas.UserCreate):
-    db_obj = models.User(name=user.name, email=user.email, phone=user.phone, address=user.address)
+    db_obj = models.User(name=user.name, email=user.email, phone=user.phone, address=user.address, password=user.password, role=user.role )
     db.add(db_obj)
     db.commit()
     db.refresh(db_obj)

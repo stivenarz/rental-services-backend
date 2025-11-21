@@ -39,6 +39,8 @@ class UserBase(BaseModel):
     email: Optional[EmailStr] = None
     phone: Optional[str] = None
     address: Optional[str] = None
+    password: Optional[str] = None
+    role: Optional[str] = 'user'
 
 class UserCreate(UserBase):
     pass
