@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, JSON
-from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 from app.database import Base
 import datetime
@@ -17,7 +16,7 @@ class Technician(Base):
     name = Column(String(255), nullable=False)
     phone = Column(String(50), nullable=True)
     email = Column(String(255), nullable=True)
-    specialties = Column(JSONB, nullable=True)  # array of strings
+    specialties = Column(JSON, nullable=True) 
 
 class User(Base):
     __tablename__ = 'users'
