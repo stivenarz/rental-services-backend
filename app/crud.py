@@ -111,28 +111,28 @@ def get_agenda(db: Session, agenda_id: int):
 def create_agenda(db: Session, agenda: schemas.AgendaCreate):
 
     # 1. Obtener técnicos cuya especialidad coincida
-    technicians = db.query(models.Technician).filter(
-        models.Technician.specialties.contains([agenda.service])
-    ).all()
+    # technicians = db.query(models.Technician).filter(
+    #     models.Technician.specialties.contains([agenda.service])
+    # ).all()
 
-    if not technicians:
-        raise HTTPException(status_code=404, detail="No hay técnicos con esa especialidad.")
+    # if not technicians:
+    #     raise HTTPException(status_code=404, detail="No hay técnicos con esa especialidad.")
 
-    # 2. Buscar técnicos con disponibilidad (máx 2 agenda por fecha)
-    available_technician = None
+    # # 2. Buscar técnicos con disponibilidad (máx 2 agenda por fecha)
+    # available_technician = None
 
-    for tech in technicians:
-        agendas_count = db.query(models.Agenda).filter(
-            models.Agenda.technician_id == tech.id,
-            models.Agenda.date == agenda.date
-        ).count()
+    # for tech in technicians:
+    #     agendas_count = db.query(models.Agenda).filter(
+    #         models.Agenda.technician_id == tech.id,
+    #         models.Agenda.date == agenda.date
+    #     ).count()
 
-        if agendas_count <= 1:
-            available_technician = tech
-            break
+    #     if agendas_count <= 1:
+    #         available_technician = tech
+    #         break
 
-    if not available_technician:
-        raise HTTPException(status_code=409, detail="No hay técnicos disponibles para esa fecha.")
+    # if not available_technician:
+    #     raise HTTPException(status_code=409, detail="No hay técnicos disponibles para esa fecha.")
 
     # 3. Crear agenda asignando el técnico encontrado
     db_obj = models.Agenda(
@@ -143,7 +143,8 @@ def create_agenda(db: Session, agenda: schemas.AgendaCreate):
         address=agenda.address,
         date=agenda.date,
         observation=agenda.observation,
-        technician_id=available_technician.id,
+        technician_id=1,
+        # technician_id=available_technician.id,
         technicianObservation='',
         status='Pendiente',
         service=agenda.service
