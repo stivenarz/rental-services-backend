@@ -112,7 +112,7 @@ def create_agenda(db: Session, agenda: schemas.AgendaCreate):
 
     # 1. Obtener técnicos cuya especialidad coincida
     technicians = db.query(models.Technician).filter(
-        func.jsonb_array_elements_text(
+        func.json_extract_path_text(
             models.Technician.specialties,
             '0'  
         ).like(f"%{agenda.service}%")
