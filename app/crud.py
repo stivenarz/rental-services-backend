@@ -112,7 +112,7 @@ def create_agenda(db: Session, agenda: schemas.AgendaCreate):
 
     # 1. Obtener técnicos cuya especialidad coincida
     technicians = db.query(models.Technician).filter(
-        models.Technician.specialties.contains([agenda.service])
+        models.Technician.specialties.op("@>")([agenda.service])
     ).all()
 
     if not technicians:
